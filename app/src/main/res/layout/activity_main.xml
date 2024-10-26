@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center_horizontal"
     tools:context=".MainActivity">
 
     <!-- Add CalendarView to display the Calendar -->
@@ -41,5 +42,10 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:gravity="center"/>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>
