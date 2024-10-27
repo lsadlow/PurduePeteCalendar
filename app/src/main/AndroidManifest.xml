@@ -13,11 +13,6 @@
         android:theme="@style/Theme.PurduePeteCalendar"
         tools:targetApi="31">
         <activity
-            android:name=".ui.NewActivity"
-            android:exported="false"
-            android:label="@string/title_activity_new"
-            android:theme="@style/Theme.PurduePeteCalendar" />
-        <activity
             android:name=".ui.ContinueActivity"
             android:exported="false"
             android:label="@string/title_activity_continue"
