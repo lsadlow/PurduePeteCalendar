@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:backgroundTint="#FFFFFD">
+
+    <ViewSwitcher
+        android:id="@+id/newswitcher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/editTextText9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextText9"
+        android:layout_width="435dp"
+        android:layout_height="87dp"
+        android:layout_marginBottom="3dp"
+        android:background="#C5B62F"
+        android:ems="10"
+        android:inputType="text"
+        android:text="@string/welcome_to_purdue_pete"
+        android:textColor="#000000"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@+id/editTextText10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextText10"
+        android:layout_width="428dp"
+        android:layout_height="74dp"
+        android:layout_marginTop="2dp"
+        android:background="#C5B62F"
+        android:ems="10"
+        android:inputType="text"
+        android:text="@string/scheduling_assistant"
+        android:textAlignment="center"
+        android:textColor="#090909"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextText9" />
+
+    <EditText
+        android:id="@+id/editTextText11"
+        android:layout_width="308dp"
+        android:layout_height="81dp"
+        android:background="#C5B62F"
+        android:ems="10"
+        android:inputType="text"
+        android:text="@string/let_s_get_started"
+        android:textColor="#0D0D0D"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextText13"
+        android:layout_width="250dp"
+        android:layout_height="85dp"
+        android:layout_marginStart="89dp"
+        android:layout_marginTop="151dp"
+        android:layout_marginEnd="72dp"
+        android:layout_marginBottom="251dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="*Image of Purdue Pete*"
+        android:textColor="#0B0B0B"
+        app:layout_constraintBottom_toTopOf="@+id/editTextText11"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextText10" />
+
+    <Button
+        android:id="@+id/nextButton"
+        android:layout_width="151dp"
+        android:layout_height="95dp"
+        android:backgroundTint="@color/gold"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:stateListAnimator="@null"
+        android:text="Continue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
