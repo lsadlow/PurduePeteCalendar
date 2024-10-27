@@ -10,56 +10,49 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ListView
+import android.widget.TimePicker
 import androidx.annotation.RequiresApi
+import androidx.core.view.children
 import com.example.purduepetecalendar.R
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
+import java.sql.Time
 import java.time.DayOfWeek
 import java.time.LocalTime
 
 class CreateCourseFragment : Fragment() {
-    val editText = view?.findViewById<EditText>(R.id.courseName)
-    val button = view?.findViewById<Button>(R.id.submitButton)
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun someMethodToCreateCourse() {
-        (activity as? AddCoursesActivity)?.let { activity ->
-            val course =
-                activity.createCourse("Placeholder", listOf(DayOfWeek.MONDAY, DayOfWeek.WEDNESDAY, DayOfWeek.FRIDAY),3, 30,4, 20)
-            // Do something with the created course, like updating the UI or saving it
-        }
-    }
-
-    /*
-    @RequiresApi(Build.VERSION_CODES.O) // test course
-    var myCourse: Course = AddCoursesActivity.createCourse("Placeholder", listOf(DayOfWeek.MONDAY, DayOfWeek.WEDNESDAY, DayOfWeek.FRIDAY),3, 30,4, 20)
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    public fun addCourseToActivity(course: Course) {
-        // Safely cast the activity to AddCoursesActivity
-        (activity as? AddCoursesActivity)?.let { activity ->
-            activity.addItem(myCourse)
-        }
-    }
-
-    (addCourseToActivity(myCourse))
-*/
-
-    companion object {
-        fun newInstance() = CreateCourseFragment()
-    }
-
-    private val viewModel: CreateCourseViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        // TODO: Use the ViewModel
-    }
+    lateinit var editText : EditText
+    lateinit var chipGroup : ChipGroup
+    lateinit var startTime : TimePicker
+    lateinit var endTime : TimePicker
+    lateinit var button : Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        val view = inflater.inflate(R.layout.fragment_create_course, container, false)
+        editText = view.findViewById<EditText>(R.id.courseName)
+        chipGroup = view.findViewById<ChipGroup>(R.id.chip_group)
+        startTime = view.findViewById<TimePicker>(R.id.startTimePicker)
+        endTime = view.findViewById<TimePicker>(R.id.endTimePicker)
+        button = view.findViewById<Button>(R.id.submitButton)
 
-        return inflater.inflate(R.layout.fragment_create_course, container, false)
+        button.setOnClickListener{
+            onSubmit()
+        }
+        return view
+    }
+
+    private fun onSubmit() {
+        val filteredDays : MutableList<DayOfWeek> = mutableListOf()
+        chipGroup!!.children.forEachIndexed { index, chip ->
+            if(chip.isSelected) filteredDays.add(DayOfWeek.of(index + 1))
+        }
+        val myactivity = activity as? AddCoursesActivity
+        myactivity?.addCourse(editText?.text.toString(), filteredDays, startTime!!.hour, startTime!!.minute, endTime!!.hour, endTime!!.minute)
+        val transaction = requireActivity().supportFragmentManager.beginTransaction()
+        transaction.remove(this)
+        transaction.commit()
     }
 }
