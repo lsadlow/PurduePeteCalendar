@@ -41,7 +41,7 @@
         android:background="#C5B62F"
         android:ems="10"
         android:inputType="text"
-        android:text="@string/scheduling_assistant"
+        android:text="@string/calendar"
         android:textAlignment="center"
         android:textColor="#090909"
         android:textSize="36sp"
