@@ -19,23 +19,6 @@ class WelcomeActivity : AppCompatActivity() {
             startActivity(Intent)
         }
 
-
-
-
-//        val viewSwitcher = findViewById<ViewSwitcher>(R.id.newswitcher)
-//        val switchButton = findViewById<Button>(R.id.nextButton)
-//        // Inflate and add your existing layouts to ViewSwitcher
-//        val inflater = LayoutInflater.from(this)
-//        val screen1 = inflater.inflate(R.layout.welcome_page, viewSwitcher, false)
-//        val screen2 = inflater.inflate(R.layout.explanation_page, viewSwitcher, false)
-//
-//        viewSwitcher.addView(screen1)
-//        viewSwitcher.addView(screen2)
-//
-//        // Set button to switch views
-//        switchButton.setOnClickListener {
-//            viewSwitcher.showNext()
-//        }
     }
 
 }
