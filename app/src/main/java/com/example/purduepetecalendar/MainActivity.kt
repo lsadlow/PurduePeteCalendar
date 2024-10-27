@@ -1,7 +1,11 @@
 package com.example.purduepetecalendar
 
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
+import android.widget.CalendarView
+import android.widget.ListView
+import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
@@ -12,47 +16,92 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.purduepetecalendar.databinding.ActivityMainBinding
+import com.example.purduepetecalendar.ui.course.Course
+import java.io.ObjectInputStream
+import java.io.ObjectOutputStream
+import java.time.DayOfWeek
+import java.time.LocalDate
+import java.time.LocalTime
+import java.util.Calendar
 
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityMainBinding
-
+    // on below line we are creating
+    // variables for text view and calendar view
+    lateinit var dateTV: TextView
+    lateinit var schedule: TextView
+    lateinit var calendarView: CalendarView
+    lateinit var listView: ListView
+    @Override
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        // initializing variables of
+        // list view with their ids.
+        dateTV = findViewById(R.id.idTVDate)
+        schedule = findViewById(R.id.scheduleContent)
+        calendarView = findViewById(R.id.calendarView)
+        listView = findViewById(R.id.listView)
+        val today = LocalDate.now()
+        val dayOfWeek = today.dayOfWeek
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        setSupportActionBar(binding.appBarMain.toolbar)
-
-        binding.appBarMain.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .setAnchorView(R.id.fab).show()
-        }
-        val drawerLayout: DrawerLayout = binding.drawerLayout
-        val navView: NavigationView = binding.navView
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
-            ), drawerLayout
+        val allCourses = readCoursesFromFile(this, "courses.dat")?: mutableListOf()
+        val adapter = ScheduleAdapter(this,
+            filterCoursesByDay(allCourses, dayOfWeek)
         )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+        listView.adapter = adapter
+
+        // on below line we are adding set on
+        // date change listener for calendar view.
+        calendarView.setOnDateChangeListener(
+            CalendarView.OnDateChangeListener { view, year, month, dayOfMonth ->
+                // In this Listener we are getting values
+                // such as year, month and day of month
+                // on below line we are creating a variable
+                // in which we are adding all the variables in it.
+                val dayOfWeek = getDayOfWeek(year, month, dayOfMonth)
+                val courses = filterCoursesByDay(allCourses, dayOfWeek)
+                adapter.updateCourses(courses)
+                val Date = ("Schedule for " + (month + 1) + "/" + dayOfMonth.toString()
+                        + "/" + year + ":")
+
+                // set this date in TextView for Display
+                dateTV.setText(Date)
+            })
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
-        return true
+    fun writeCoursesToFile(context: Context, fileName: String, courses: List<Course>) {
+        try {
+            context.openFileOutput(fileName, Context.MODE_PRIVATE).use { fileOut ->
+                ObjectOutputStream(fileOut).use { objectOut ->
+                    objectOut.writeObject(courses) // Serialize the list of courses
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    fun readCoursesFromFile(context: Context, fileName: String): MutableList<Course>? {
+        // Use ObjectInputStream to read the serialized data from a file in internal storage
+        return try {
+            context.openFileInput(fileName).use { fileIn ->
+                ObjectInputStream(fileIn).use { objectIn ->
+                    objectIn.readObject() as MutableList<Course>
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    fun getDayOfWeek(year: Int, month: Int, dayOfMonth: Int) : DayOfWeek {
+        return LocalDate.of(year, month + 1, dayOfMonth).dayOfWeek
+    }
+
+    fun filterCoursesByDay(courses: MutableList<Course>, targetDay: DayOfWeek) : MutableList<Course> {
+        return courses.filter { course ->
+            targetDay in course.days
+        } as MutableList<Course>
     }
 }
