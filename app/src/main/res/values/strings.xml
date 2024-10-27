@@ -64,5 +64,7 @@
     </string>
 
     <string name="textview" />
+    <string name="calendar">Calendar</string>
+    <string name="purdue_pete_calendar_header">Purdue Pete Calendar</string>
 
 </resources>

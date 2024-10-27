@@ -79,7 +79,7 @@
         android:background="#C5B62F"
         android:ems="10"
         android:inputType="text"
-        android:text="@string/purdue_pete_scheduling_assistant"
+        android:text="@string/purdue_pete_calendar_header"
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
