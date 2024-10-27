@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import com.example.purduepetecalendar.R
+import java.time.format.TextStyle
+import java.util.Locale
 
 class CourseListAdapter(private val ctx: Context, private val dataList: List<Course>) : BaseAdapter() {
     private val inflater : LayoutInflater = LayoutInflater.from(ctx)
@@ -24,7 +26,7 @@ class CourseListAdapter(private val ctx: Context, private val dataList: List<Cou
 
         var text : String = item.name + " "
         for (d in item.days)  {
-            text += d
+            text += d.getDisplayName(TextStyle.SHORT, Locale.US)
         }
         text += " " + item.startTime + "-" + item.endTime
         titleTextView.text = text

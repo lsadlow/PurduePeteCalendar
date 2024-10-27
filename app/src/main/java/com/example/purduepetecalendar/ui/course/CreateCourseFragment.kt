@@ -47,8 +47,11 @@ class CreateCourseFragment : Fragment() {
     private fun onSubmit() {
         val filteredDays : MutableList<DayOfWeek> = mutableListOf()
         chipGroup!!.children.forEachIndexed { index, chip ->
-            if(chip.isSelected) filteredDays.add(DayOfWeek.of(index + 1))
+            if((chip as Chip).isChecked) {
+                filteredDays.add(DayOfWeek.of(index + 1))
+            }
         }
+        println("LOG: " + filteredDays)
         val myactivity = activity as? AddCoursesActivity
         myactivity?.addCourse(editText?.text.toString(), filteredDays, startTime!!.hour, startTime!!.minute, endTime!!.hour, endTime!!.minute)
         val transaction = requireActivity().supportFragmentManager.beginTransaction()

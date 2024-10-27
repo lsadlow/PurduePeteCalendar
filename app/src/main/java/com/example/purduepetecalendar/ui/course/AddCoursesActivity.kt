@@ -11,6 +11,7 @@ import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.purduepetecalendar.MainActivity
 import com.example.purduepetecalendar.R
+import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 import java.time.DayOfWeek
 import java.time.LocalTime
@@ -19,7 +20,7 @@ class AddCoursesActivity : AppCompatActivity() {
 
     private lateinit var layoutInflater: LayoutInflater
     lateinit var adapter : CourseListAdapter
-    var items: MutableList<Course> = mutableListOf()
+    lateinit var items: MutableList<Course>
     fun addCourse(
         name: String,
         days: List<DayOfWeek>,
@@ -37,7 +38,9 @@ class AddCoursesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_addcourses)
+        items = readCoursesFromFile(this, "courses.dat") ?: mutableListOf()
         val listView = findViewById<ListView>(R.id.classList)
+
         adapter = CourseListAdapter(this, items)
         listView.adapter = adapter
 
@@ -76,4 +79,17 @@ class AddCoursesActivity : AppCompatActivity() {
         }
     }
 
+    private fun readCoursesFromFile(context: Context, fileName: String): MutableList<Course>? {
+        // Use ObjectInputStream to read the serialized data from a file in internal storage
+        return try {
+            context.openFileInput(fileName).use { fileIn ->
+                ObjectInputStream(fileIn).use { objectIn ->
+                    objectIn.readObject() as MutableList<Course>
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
 }
