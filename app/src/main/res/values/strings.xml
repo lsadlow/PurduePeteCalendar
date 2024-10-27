@@ -10,6 +10,7 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+
     <string name="welcome_to_purdue_pete">Welcome to Purdue Pete</string>
     <string name="scheduling_assistant">Scheduling Assistant</string>
     <string name="let_s_get_started">Let\'s get started...</string>
@@ -61,4 +62,7 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+
+    <string name="textview" />
+
 </resources>
